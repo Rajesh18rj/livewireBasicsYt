@@ -37,10 +37,10 @@ class Clicker extends Component
 
     public function render()
     {
-        $users= User::paginate(5);
+        $users= User::SimplePaginate(5);
 
         return view('livewire.clicker',[
-            'users'=>$users
+            'users'=> $users,
         ]);
     }
 }

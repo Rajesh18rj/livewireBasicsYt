@@ -31,6 +31,7 @@
         <p>{{$user->name}}</p>
     @endforeach
 
-     {{ $users->links(vendor.livewire.test) }}
+        {{ $users->links() }}
+
 
 </div>
