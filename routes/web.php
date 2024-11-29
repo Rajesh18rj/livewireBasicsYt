@@ -10,3 +10,8 @@ Route::get('/home', function ()
 {
     return view('home');
 });
+
+Route::get('/file', function(){
+    return view('file_upload');
+});
+
