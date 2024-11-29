@@ -13,6 +13,11 @@ class TodoList extends Component
 
     public $name;
     public $search;
+
+    public $editingTodoID;
+
+    #[Rule('required|min:3|max:255')]
+    public $editingTodoName;
     public function create(){
 //        dd('test');
         //validate
@@ -32,10 +37,39 @@ class TodoList extends Component
 
     }
 
+
     public function delete(Todo $todo){
         $todo->delete();
     }
-    public function render()
+
+    public function toggle(Todo $todo)
+    {
+        $todo->completed = !$todo->completed;
+        $todo->save();
+    }
+
+    public function edit(Todo $todo)
+    {
+        $this->editingTodoID = $todo->id;
+        $this->editingTodoName = $todo->name;
+    }
+
+    public function cancelEdit(){
+        $this->reset('editingTodoID', 'editingTodoName');
+    }
+
+    public function update(){
+        $this->validateOnly('editingTodoName');
+
+        Todo::find($this->editingTodoID)->update([
+            'name'=>$this->editingTodoName,
+        ]);
+
+        $this->cancelEdit();
+    }
+
+
+    public function render()            #we write the read function is here
     {
         return view('livewire.todo-list', [
             'todos' => Todo::latest()
